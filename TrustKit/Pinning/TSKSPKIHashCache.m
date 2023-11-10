@@ -1,7 +1,7 @@
 /*
  
  TSKSPKIHashCache.m
- TrustKit 
+ TrustKit
  
  Copyright 2015 The TrustKit Project Authors
  Licensed under the MIT license, see associated LICENSE file for terms.
@@ -43,12 +43,6 @@ static const unsigned char ecDsaSecp384r1Asn1Header[] =
     0x01, 0x06, 0x05, 0x2b, 0x81, 0x04, 0x00, 0x22, 0x03, 0x62, 0x00
 };
 
-static const unsigned char rsa3072Asn1Header[] =
-{
-    0x30, 0x82, 0x01, 0xA2, 0x30, 0x0D, 0x06, 0x09, 0x2A, 0x86, 0x48, 0x86,
-    0xF7, 0x0D, 0x01, 0x01, 0x01, 0x05, 0x00, 0x03, 0x82, 0x01, 0x8F, 0x00
-};
-
 
 
 static char *getAsn1HeaderBytes(NSString *publicKeyType, NSNumber *publicKeySize)
@@ -69,12 +63,7 @@ static char *getAsn1HeaderBytes(NSString *publicKeyType, NSNumber *publicKeySize
     {
         return (char *)ecDsaSecp384r1Asn1Header;
     }
-    else if (([publicKeyType isEqualToString:@"42"]) && ([publicKeySize integerValue] == 3072))
-    {
-        return (char *)rsa3072Asn1Header;
-    }
- 
-        
+    
     @throw([NSException exceptionWithName:@"Unsupported public key algorithm" reason:@"Tried to generate the SPKI hash for an unsupported key algorithm" userInfo:nil]);
 }
 
@@ -95,10 +84,6 @@ static unsigned int getAsn1HeaderSize(NSString *publicKeyType, NSNumber *publicK
     else if (([publicKeyType isEqualToString:(NSString *)kSecAttrKeyTypeECSECPrimeRandom]) && ([publicKeySize integerValue] == 384))
     {
         return sizeof(ecDsaSecp384r1Asn1Header);
-    }
-    else if (([publicKeyType isEqualToString:@"42"]) && ([publicKeySize integerValue] == 3072))
-    {
-        return sizeof(rsa3072Asn1Header);
     }
     
     @throw([NSException exceptionWithName:@"Unsupported public key algorithm" reason:@"Tried to generate the SPKI hash for an unsupported key algorithm" userInfo:nil]);
